@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Summarizer</title>
+      <link rel="stylesheet" href="static/Styles.css">
+</head>
+<body>
+    <h1>Text Summarizer</h1>
+    <form action="/summarize" method="post">
+        <textarea name="text" rows="10" cols="50" required></textarea><br>
+        <input type="submit" value="Summarize">
+            <input type="checkbox" name="save" id="saveCheckbox" value="save"> Save summary to file
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("summaryForm");
+            const saveCheckbox = document.getElementById("saveCheckbox");
+
+            form.addEventListener("submit", function (event) {
+                if (saveCheckbox.checked) {
+                    const summaryText = document.querySelector("p[name='summary']").innerText;
+                    const blob = new Blob([summaryText], { type: "text/plain;charset=utf-8" });
+                    saveAs(blob, "summary.txt");
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+    </form>
+    {% if text %}
+    <h2>Original Text:</h2>
+    <p>{{ text }}</p>
+    {% endif %}
+    {% if summary %}
+    <h2>Summary:</h2>
+    <p>{{ summary }}</p>
+    {% endif %}
+</body>
+</html>
+<style>body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+p {
+    white-space: pre-wrap;
+}
+</style>
