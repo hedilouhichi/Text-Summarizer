@@ -30,7 +30,12 @@ def index():
 @app.route('/summarize',methods=['POST'])
 def predict():  # put application's code here
     text = request.form.get('text')
+    generated_text = generate_summary(text)
+    if request.form.get('save'):
 
-    return render_template('index.html', text=text, summary=generate_summary(text))
+        with open ('summary.txt', 'w') as f:
+            f.write(generated_text)
+
+    return render_template('index.html', text=text, summary=generated_text)
 if __name__ == '__main__':
     app.run()
